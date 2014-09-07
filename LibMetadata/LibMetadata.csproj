@@ -7,7 +7,7 @@
     <ProjectGuid>{DE0EC247-62C5-4628-A039-0A8064B53277}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlacDotnetLib</RootNamespace>
+    <RootNamespace>LibMetadata</RootNamespace>
     <AssemblyName>FlacDotnetLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,9 +40,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioMetadata\FlacMetadata.cs" />
-    <Compile Include="AudioMetadata\FlacMetadataReader.cs" />
+    <Compile Include="IO\FlacFileInfoReader.cs" />
+    <Compile Include="IO\FlacMetadataBlock.cs" />
     <Compile Include="AudioMetadata\IAudioMetadata.cs" />
-    <Compile Include="AudioMetadata\IMetadataReader.cs" />
+    <Compile Include="IO\FlacPaddingBlock.cs" />
+    <Compile Include="IO\IAudioFileInfo.cs" />
+    <Compile Include="IO\FlacFileInfo.cs" />
+    <Compile Include="IO\IFlacMetadataBlock.cs" />
+    <Compile Include="IO\IAudioFileInfoReader.cs" />
+    <Compile Include="IO\FlacMetadataBlockHeader.cs" />
+    <Compile Include="IO\FlacMetadataBlockType.cs" />
+    <Compile Include="IO\FlacSeekTable.cs" />
+    <Compile Include="IO\FlacSeektableBlock.cs" />
+    <Compile Include="IO\FlacStreamInfo.cs" />
+    <Compile Include="IO\FlacStreamInfoBlock.cs" />
+    <Compile Include="IO\FlacVorbisComment.cs" />
+    <Compile Include="IO\FlacVorbisCommentBlock.cs" />
     <Compile Include="IO\BitReader.cs" />
     <Compile Include="IO\BitWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

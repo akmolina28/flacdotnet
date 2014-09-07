@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibMetadata.AudioMetadata
+namespace LibMetadata.IO
 {
-    public interface IAudioMetadata
+    public interface IAudioFileInfo
     {
+        string FilePath { get; set; }
         string Title { get; set; }
         string Artist { get; set; }
         string Album { get; set; }

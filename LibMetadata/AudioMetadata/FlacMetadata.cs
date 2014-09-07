@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlacDotnetLib.AudioMetadata
+namespace LibMetadata.AudioMetadata
 {
     public class FlacMetadata : IAudioMetadata
     {
@@ -29,5 +29,6 @@ namespace FlacDotnetLib.AudioMetadata
         public string Contact { get; set; }
         public string ISRC { get; set; }
         public System.Collections.Specialized.NameValueCollection CustomAttributes { get; set; }
+
     }
 }
