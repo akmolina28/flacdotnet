@@ -40,7 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioMetadata\FlacMetadata.cs" />
+    <Compile Include="AudioMetadata\FlacMetadataReader.cs" />
     <Compile Include="AudioMetadata\IAudioMetadata.cs" />
+    <Compile Include="AudioMetadata\IMetadataReader.cs" />
+    <Compile Include="IO\BitReader.cs" />
+    <Compile Include="IO\BitWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
