@@ -66,7 +66,7 @@ namespace LibMetadata.IO
             }
             set
             {
-                UpdateVorbisComments(string.Format("{0}={1}", COM_TITLE, value));
+                VorbisCommentBlock.AddComment(string.Format("{0}={1}", COM_TITLE, value), true);
             }
         }
         public string Artist { get; set; }
@@ -95,6 +95,17 @@ namespace LibMetadata.IO
         public FlacStreamInfoBlock StreamInfoBlock { get; set; }
         public FlacSeektableBlock SeekTableBlock { get; set; }
         public FlacVorbisCommentBlock VorbisCommentBlock { get; set; }
-        public FlacPaddingBlock PaddingBlock { get; set; }
+        public FlacPaddingBlock PaddingBlock { get; set; }public List<IFlacMetadataBlock> OtherBlocks { get; set; }
+
+        public FlacFileInfo()
+        {
+            OtherBlocks = new List<IFlacMetadataBlock>();
+            _metadataOverflow = false;
+        }
+        public FlacFileInfo(string filePath)
+            : this()
+        {
+            _filePath = filePath;
+        }
     }
 }
