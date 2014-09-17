@@ -11,6 +11,6 @@ namespace LibMetadata.IO
     {
 
         string FilePath { get; set; }
-        IAudioFileInfo ReadMetadata();
+        IAudioFileInfo ReadFileInfo();
     }
 }

@@ -14,7 +14,7 @@ namespace LibMetadata.IO
 
         public void ReadBlockData(BitReader reader)
         {
-            throw new NotImplementedException();
+            reader.ReadBytes(BlockData, Header.BlockLengthInBytes * 8); // todo: un-hardcode the "8"
         }
     }
 }
