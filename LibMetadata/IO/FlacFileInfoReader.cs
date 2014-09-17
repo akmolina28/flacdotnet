@@ -97,7 +97,7 @@ namespace LibMetadata.IO
             _bitReader = new BitReader(_filePath);
         }
 
-        public IAudioFileInfo ReadMetadata()
+        public IAudioFileInfo ReadFileInfo()
         {
             if (_bitReader == null)
             {
@@ -139,7 +139,7 @@ namespace LibMetadata.IO
                         vorbisComments.Header = header;
                         vorbisComments.ReadBlockData(_bitReader);
                         ret.VorbisCommentBlock = vorbisComments;
-                        ParseVorbisComments(ret);
+                        //ParseVorbisComments(ret);
                         break;
                     case FlacMetadataBlockType.PADDING:
                         FlacPaddingBlock padding = new FlacPaddingBlock();
@@ -151,6 +151,7 @@ namespace LibMetadata.IO
                         FlacMetadataBlock block = new FlacMetadataBlock();
                         block.Header = header;
                         block.ReadBlockData(_bitReader);
+                        ret.OtherBlocks.Add(block);
                         break;
                 }
             }
@@ -185,29 +186,29 @@ namespace LibMetadata.IO
             ret.BlockLengthInBytes = _bitReader.ReadInt32(24);
             return ret;
         }
-        private void ParseVorbisComments(FlacFileInfo fileInfo)
-        {
-            foreach(FlacVorbisComment comment in fileInfo.VorbisCommentBlock.VorbisComments)
-            {
-                string text = comment.Comment;
-                if (text.StartsWith(COM_TITLE))
-                {
-                    fileInfo.Title = text.Substring(COM_TITLE.Length);
-                }
-                else if (text.StartsWith(COM_ARTIST))
-                {
-                    fileInfo.Artist = text.Substring(COM_ARTIST.Length);
-                }
-                else if (text.StartsWith(COM_ALBUM))
-                {
-                    fileInfo.Album = text.Substring(COM_ALBUM.Length);
-                }
-                else if (text.StartsWith(COM_TRACKNUMBER))
-                {
-                    fileInfo.Track = Convert.ToInt32(text.Substring(COM_TRACKNUMBER.Length));
-                }
-            }
-        }
+        //private void ParseVorbisComments(FlacFileInfo fileInfo)
+        //{
+        //    foreach(FlacVorbisComment comment in fileInfo.VorbisCommentBlock.VorbisComments)
+        //    {
+        //        string text = comment.Comment;
+        //        if (text.StartsWith(COM_TITLE))
+        //        {
+        //            fileInfo.Title = text.Substring(COM_TITLE.Length);
+        //        }
+        //        else if (text.StartsWith(COM_ARTIST))
+        //        {
+        //            fileInfo.Artist = text.Substring(COM_ARTIST.Length);
+        //        }
+        //        else if (text.StartsWith(COM_ALBUM))
+        //        {
+        //            fileInfo.Album = text.Substring(COM_ALBUM.Length);
+        //        }
+        //        else if (text.StartsWith(COM_TRACKNUMBER))
+        //        {
+        //            fileInfo.Track = Convert.ToInt32(text.Substring(COM_TRACKNUMBER.Length));
+        //        }
+        //    }
+        //}
         #endregion
     }
 }

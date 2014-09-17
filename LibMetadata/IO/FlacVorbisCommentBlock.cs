@@ -11,6 +11,8 @@ namespace LibMetadata.IO
     /// </summary>
     public class FlacVorbisCommentBlock : IFlacMetadataBlock
     {
+        private List<FlacVorbisComment> _comments { get; set; }
+
         /// <summary>
         /// 32-bit integer length of the vendor string.
         /// </summary>
@@ -26,7 +28,13 @@ namespace LibMetadata.IO
         /// <summary>
         /// User comments.
         /// </summary>
-        public List<FlacVorbisComment> VorbisComments { get; set; }
+        //public List<FlacVorbisComment> VorbisComments // todo: wrap this into an object to restrict ICollection functions
+        //{
+        //    get
+        //    {
+        //        return _comments;
+        //    }
+        //}
 
         public FlacMetadataBlockHeader Header { get; set; }
 
@@ -41,20 +49,47 @@ namespace LibMetadata.IO
             reader.IsLittleEndian = true;
             UserCommentListLength = reader.ReadInt32(32);
 
-            VorbisComments = new List<FlacVorbisComment>();
+            _comments = new List<FlacVorbisComment>();
             for (int i = 0; i < UserCommentListLength; i++)
             {
                 reader.IsLittleEndian = true;
                 int commentLength = reader.ReadInt32(32);
                 reader.IsLittleEndian = false;
 
-                FlacVorbisComment nextComment = new FlacVorbisComment()
-                {
-                    Length = commentLength,
-                    Comment = reader.ReadString(commentLength, 8)
-                };
-                VorbisComments.Add(nextComment);
+                FlacVorbisComment nextComment = new FlacVorbisComment(reader.ReadString(commentLength, 8));
+                _comments.Add(nextComment);
             }
+        }
+
+        public void AddComment(string text, bool overwrite = false)
+        {
+            FlacVorbisComment newComment = new FlacVorbisComment(text);
+            int newLength = newComment.ToString().Length;
+            int blockLengthDifference = newLength;
+
+            if (overwrite && _comments.Any(t => t.FieldName == newComment.FieldName))
+            {
+                FlacVorbisComment existingComment = _comments.First(t => t.FieldName == newComment.FieldName);
+                int oldLength = existingComment.ToString().Length;
+                existingComment.Data = newComment.Data;
+                blockLengthDifference = newLength - oldLength;
+            }
+            else
+            {
+                _comments.Add(newComment);
+            }
+
+            Header.BlockLengthInBytes += blockLengthDifference;
+        }
+
+        public string GetComment(string fieldName)
+        {
+            string ret = null;
+            if (_comments.Any(t => t.FieldName == fieldName))
+            {
+                ret = _comments.First(t => t.FieldName == fieldName).Data;
+            }
+            return ret;
         }
     }
 }
