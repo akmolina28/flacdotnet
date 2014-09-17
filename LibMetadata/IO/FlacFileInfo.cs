@@ -8,6 +8,14 @@ namespace LibMetadata.IO
 {
     public class FlacFileInfo : IAudioFileInfo
     {
+        private string _title { get; set; }
+        private string _artist { get; set; }
+        private string _album { get; set; }
+        private string _year { get; set; }
+        private string _comment { get; set; }
+        private int _track { get; set; }
+
+        // default tags
         public string FilePath { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
@@ -16,10 +24,27 @@ namespace LibMetadata.IO
         public string Comment { get; set; }
         public int Track { get; set; }
 
+        // flac tags
+        public string Version { get; set; }
+        public string Performer { get; set; }
+        public string Copyright { get; set; }
+        public string License { get; set; }
+        public string Organization { get; set; }
+        public string Description { get; set; }
+        public string Genre { get; set; }
+        public string Date { get; set; }
+        public string Location { get; set; }
+        public string Contact { get; set; }
+        public string ISRC { get; set; }
+        public System.Collections.Specialized.NameValueCollection CustomAttributes { get; set; }
+
+
+
         public int MetadataLengthInBytes { get; set; }
         public FlacStreamInfoBlock StreamInfoBlock { get; set; }
         public FlacSeektableBlock SeekTableBlock { get; set; }
         public FlacVorbisCommentBlock VorbisCommentBlock { get; set; }
         public FlacPaddingBlock PaddingBlock { get; set; }
+
     }
 }

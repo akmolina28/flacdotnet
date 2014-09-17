@@ -33,27 +33,7 @@ namespace LibMetadata.IO
         //    INVALID = 127
         //}
         #region Constants
-        private const int LEN_MIN_BLOCK_SIZE = 2;
-        private const int LEN_MAX_BLOCK_SIZE = 2;
-        private const int LEN_MIN_FRAME_SIZE = 3;
-        private const int LEN_MAX_FRAME_SIZE = 3;
-        private const int LEN_SAMPLE_RATE_BITS = 20;
-        private const int LEN_BYTE = 8;
-        private readonly string COM_TITLE = "TITLE=";
-        private readonly string COM_VERSION = "VERSION=";
-        private readonly string COM_ALBUM = "ALBUM=";
-        private readonly string COM_TRACKNUMBER = "TRACKNUMBER=";
-        private readonly string COM_ARTIST = "ARTIST=";
-        private readonly string COM_PERFORMER = "PERFORMER=";
-        private readonly string COM_COPYRIGHT = "COPYRIGHT=";
-        private readonly string COM_LICENSE = "LICENSE=";
-        private readonly string COM_ORGANIZATION = "ORGANIZATION=";
-        private readonly string COM_DESCRIPTION = "DESCRIPTION=";
-        private readonly string COM_GENRE = "GENRE=";
-        private readonly string COM_DATE = "DATE=";
-        private readonly string COM_LOCATION = "LOCATION=";
-        private readonly string COM_CONTACT = "CONTACT=";
-        private readonly string COM_ISRC = "ISRC=";
+        
         #endregion
 
         //#region Flac Blocks
@@ -190,21 +170,21 @@ namespace LibMetadata.IO
             foreach(FlacVorbisComment comment in fileInfo.VorbisCommentBlock.VorbisComments)
             {
                 string text = comment.Comment;
-                if (text.StartsWith(COM_TITLE))
+                if (text.StartsWith(FlacConstants.COM_TITLE))
                 {
-                    fileInfo.Title = text.Substring(COM_TITLE.Length);
+                    fileInfo.Title = text.Substring(FlacConstants.COM_TITLE.Length);
                 }
-                else if (text.StartsWith(COM_ARTIST))
+                else if (text.StartsWith(FlacConstants.COM_ARTIST))
                 {
-                    fileInfo.Artist = text.Substring(COM_ARTIST.Length);
+                    fileInfo.Artist = text.Substring(FlacConstants.COM_ARTIST.Length);
                 }
-                else if (text.StartsWith(COM_ALBUM))
+                else if (text.StartsWith(FlacConstants.COM_ALBUM))
                 {
-                    fileInfo.Album = text.Substring(COM_ALBUM.Length);
+                    fileInfo.Album = text.Substring(FlacConstants.COM_ALBUM.Length);
                 }
-                else if (text.StartsWith(COM_TRACKNUMBER))
+                else if (text.StartsWith(FlacConstants.COM_TRACKNUMBER))
                 {
-                    fileInfo.Track = Convert.ToInt32(text.Substring(COM_TRACKNUMBER.Length));
+                    fileInfo.Track = Convert.ToInt32(text.Substring(FlacConstants.COM_TRACKNUMBER.Length));
                 }
             }
         }

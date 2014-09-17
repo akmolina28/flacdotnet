@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AudioMetadata\FlacMetadata.cs" />
     <Compile Include="IO\ComplexDelimiter.cs" />
+    <Compile Include="IO\FlacConstants.cs" />
     <Compile Include="IO\FlacFileInfoReader.cs" />
     <Compile Include="IO\FlacMetadataBlock.cs" />
     <Compile Include="AudioMetadata\IAudioMetadata.cs" />
