@@ -61,7 +61,7 @@ namespace LibMetadata.IO
             }
         }
 
-        public void AddComment(string text, bool overwrite = false)
+        public int AddComment(string text, bool overwrite = false)
         {
             FlacVorbisComment newComment = new FlacVorbisComment(text);
             int newLength = newComment.ToString().Length;
@@ -80,6 +80,7 @@ namespace LibMetadata.IO
             }
 
             Header.BlockLengthInBytes += blockLengthDifference;
+            return blockLengthDifference;
         }
 
         public string GetComment(string fieldName)

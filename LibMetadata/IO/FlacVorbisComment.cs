@@ -40,8 +40,8 @@ namespace LibMetadata.IO
                 int i = text.IndexOf('=');
                 if (i > 0)
                 {
-                    fieldName = text.Substring(0, i + 1);
-                    data = text.Substring(i);
+                    fieldName = text.Substring(0, i);
+                    data = text.Substring(i + 1);
                     valid = true;
                 }
             }

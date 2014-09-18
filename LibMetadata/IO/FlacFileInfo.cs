@@ -9,28 +9,28 @@ namespace LibMetadata.IO
     public class FlacFileInfo : IAudioFileInfo
     {
         #region Constants
-        private const int DEFAULT_PADDING_SIZE = 2048;
-        private const int LEN_MIN_BLOCK_SIZE = 2;
-        private const int LEN_MAX_BLOCK_SIZE = 2;
-        private const int LEN_MIN_FRAME_SIZE = 3;
-        private const int LEN_MAX_FRAME_SIZE = 3;
-        private const int LEN_SAMPLE_RATE_BITS = 20;
-        private const int LEN_BYTE = 8;
-        private readonly string COM_TITLE = "TITLE";
-        private readonly string COM_VERSION = "VERSION";
-        private readonly string COM_ALBUM = "ALBUM";
-        private readonly string COM_TRACK = "TRACKNUMBER";
-        private readonly string COM_ARTIST = "ARTIST";
-        private readonly string COM_PERFORMER = "PERFORMER";
-        private readonly string COM_COPYRIGHT = "COPYRIGHT";
-        private readonly string COM_LICENSE = "LICENSE";
-        private readonly string COM_ORGANIZATION = "ORGANIZATION";
-        private readonly string COM_DESCRIPTION = "DESCRIPTION";
-        private readonly string COM_GENRE = "GENRE";
-        private readonly string COM_DATE = "DATE";
-        private readonly string COM_LOCATION = "LOCATION";
-        private readonly string COM_CONTACT = "CONTACT";
-        private readonly string COM_ISRC = "ISRC";
+        //private const int DEFAULT_PADDING_SIZE = 2048;
+        //private const int LEN_MIN_BLOCK_SIZE = 2;
+        //private const int LEN_MAX_BLOCK_SIZE = 2;
+        //private const int LEN_MIN_FRAME_SIZE = 3;
+        //private const int LEN_MAX_FRAME_SIZE = 3;
+        //private const int LEN_SAMPLE_RATE_BITS = 20;
+        //private const int LEN_BYTE = 8;
+        //private readonly string COM_TITLE = "TITLE";
+        //private readonly string COM_VERSION = "VERSION";
+        //private readonly string COM_ALBUM = "ALBUM";
+        //private readonly string COM_TRACK = "TRACKNUMBER";
+        //private readonly string COM_ARTIST = "ARTIST";
+        //private readonly string COM_PERFORMER = "PERFORMER";
+        //private readonly string COM_COPYRIGHT = "COPYRIGHT";
+        //private readonly string COM_LICENSE = "LICENSE";
+        //private readonly string COM_ORGANIZATION = "ORGANIZATION";
+        //private readonly string COM_DESCRIPTION = "DESCRIPTION";
+        //private readonly string COM_GENRE = "GENRE";
+        //private readonly string COM_DATE = "DATE";
+        //private readonly string COM_LOCATION = "LOCATION";
+        //private readonly string COM_CONTACT = "CONTACT";
+        //private readonly string COM_ISRC = "ISRC";
         #endregion
 
         #region Private Members
@@ -62,18 +62,68 @@ namespace LibMetadata.IO
         {
             get
             {
-                return VorbisCommentBlock.GetComment(COM_TITLE);
+                return VorbisCommentBlock.GetComment(FlacConstants.COM_TITLE);
             }
             set
             {
-                VorbisCommentBlock.AddComment(string.Format("{0}={1}", COM_TITLE, value), true);
+                UpdateVorbisComments(FlacConstants.COM_TITLE, value);
             }
         }
-        public string Artist { get; set; }
-        public string Album { get; set; }
-        public string Year { get; set; }
-        public string Comment { get; set; }
-        public int Track { get; set; }
+        public string Artist
+        {
+            get
+            {
+                return VorbisCommentBlock.GetComment(FlacConstants.COM_ARTIST);
+            }
+            set
+            {
+                UpdateVorbisComments(FlacConstants.COM_ARTIST, value);
+            }
+        }
+        public string Album
+        {
+            get
+            {
+                return VorbisCommentBlock.GetComment(FlacConstants.COM_ALBUM);
+            }
+            set
+            {
+                UpdateVorbisComments(FlacConstants.COM_ALBUM, value);
+            }
+        }
+        public string Year
+        {
+            get
+            {
+                return VorbisCommentBlock.GetComment(FlacConstants.COM_YEAR);
+            }
+            set
+            {
+                UpdateVorbisComments(FlacConstants.COM_YEAR, value);
+            }
+        }
+        public string Comment
+        {
+            get
+            {
+                return VorbisCommentBlock.GetComment(FlacConstants.COM_COMMENT);
+            }
+            set
+            {
+                UpdateVorbisComments(FlacConstants.COM_COMMENT, value);
+            }
+        }
+        public int Track
+        {
+            get
+            {
+                return System.Convert.ToInt32(VorbisCommentBlock.GetComment(FlacConstants.COM_TRACKNUMBER));
+            }
+            set
+            {
+                UpdateVorbisComments(FlacConstants.COM_TRACKNUMBER, value.ToString());
+            }
+        }
 
         // flac tags
         public string Version { get; set; }
@@ -106,6 +156,12 @@ namespace LibMetadata.IO
             : this()
         {
             _filePath = filePath;
+        }
+
+        private void UpdateVorbisComments(string fieldName, string data)
+        {
+            int blockLengthDifference = VorbisCommentBlock.AddComment(string.Format("{0}={1}", fieldName, data), true);
+            PaddingBlock.Header.BlockLengthInBytes -= blockLengthDifference;
         }
     }
 }
