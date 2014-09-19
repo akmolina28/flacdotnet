@@ -8,12 +8,38 @@ namespace UnitTests
     [TestClass]
     public class UnitTest1
     {
+        private LibMetadata.IO.FlacFileInfo GetTestFileInfo()
+        {
+            //LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"C:\ph1996-07-22.29075.flac16\ph1996-07-22t01.flac");
+            LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"E:\Music\test\03 The Conch.flac");
+            LibMetadata.IO.FlacFileInfo fileInfo = (LibMetadata.IO.FlacFileInfo)reader.ReadFileInfo();
+            return fileInfo;
+        }
+
         [TestMethod]
         public void FlacReaderTest()
         {
-            LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"C:\ph1996-07-22.29075.flac16\ph1996-07-22t01.flac");
-            //LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"E:\Music\test\03 The Conch.flac");
+            //LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"C:\ph1996-07-22.29075.flac16\ph1996-07-22t01.flac");
+            LibMetadata.IO.FlacFileInfoReader reader = new LibMetadata.IO.FlacFileInfoReader(@"E:\Music\test\03 The Conch.flac");
             LibMetadata.IO.FlacFileInfo fileInfo = (LibMetadata.IO.FlacFileInfo)reader.ReadFileInfo();
+            
+        }
+
+        [TestMethod]
+        public void VorbisCommentsTest()
+        {
+            FlacFileInfo fileInfo = GetTestFileInfo();
+
+
+            int length = fileInfo.TotalMetadataLengthInBytes;
+
+            string oldArtist = fileInfo.Artist;
+            string newArtist = "asdf1234fofofo";
+            int oldPaddingLength = fileInfo.PaddingBlock.Header.BlockLengthInBytes;
+            fileInfo.Artist = newArtist;
+            int newPaddingLength = fileInfo.PaddingBlock.Header.BlockLengthInBytes;
+            Assert.AreEqual(newArtist.Length - oldArtist.Length, oldPaddingLength - newPaddingLength);
+            Assert.AreEqual(length, fileInfo.TotalMetadataLengthInBytes);
         }
 
         [TestMethod]

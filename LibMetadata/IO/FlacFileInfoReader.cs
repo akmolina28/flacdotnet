@@ -94,6 +94,7 @@ namespace LibMetadata.IO
             ret.FilePath = _filePath;
 
             ReadStreamMarker();
+            ret.MetadataLengthInBytes += 4;
 
             FlacMetadataBlockHeader header;
             do
@@ -166,29 +167,6 @@ namespace LibMetadata.IO
             ret.BlockLengthInBytes = _bitReader.ReadInt32(24);
             return ret;
         }
-        //private void ParseVorbisComments(FlacFileInfo fileInfo)
-        //{
-        //    foreach(FlacVorbisComment comment in fileInfo.VorbisCommentBlock.VorbisComments)
-        //    {
-        //        string text = comment.Comment;
-        //        if (text.StartsWith(COM_TITLE))
-        //        {
-        //            fileInfo.Title = text.Substring(COM_TITLE.Length);
-        //        }
-        //        else if (text.StartsWith(COM_ARTIST))
-        //        {
-        //            fileInfo.Artist = text.Substring(COM_ARTIST.Length);
-        //        }
-        //        else if (text.StartsWith(COM_ALBUM))
-        //        {
-        //            fileInfo.Album = text.Substring(COM_ALBUM.Length);
-        //        }
-        //        else if (text.StartsWith(COM_TRACKNUMBER))
-        //        {
-        //            fileInfo.Track = Convert.ToInt32(text.Substring(COM_TRACKNUMBER.Length));
-        //        }
-        //    }
-        //}
         #endregion
     }
 }

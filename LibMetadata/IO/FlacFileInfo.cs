@@ -140,12 +140,63 @@ namespace LibMetadata.IO
         public System.Collections.Specialized.NameValueCollection CustomAttributes { get; set; }
 
 
+        internal int TotalMetadataLengthInBytes
+        {
+            get
+            {
+                int ret = 0;
+                if (IsValidFlacStream)
+                {
+                    ret = 4; // 4 bytes for stream marker
+                    ret += MetadataBlocks.Sum(t => t.Header.BlockLengthInBytes);
+                }
+                return ret;
+            }
+        }
+
+        public bool IsValidFlacStream
+        {
+            get
+            {
+                return StreamInfoBlock != null;
+            }
+        }
+
+        internal List<IFlacMetadataBlock> MetadataBlocks
+        {
+            get
+            {
+                List<IFlacMetadataBlock> ret = new List<IFlacMetadataBlock>();
+                if (StreamInfoBlock != null)
+                {
+                    ret.Add(StreamInfoBlock);
+                }
+                if (SeekTableBlock != null)
+                {
+                    ret.Add(SeekTableBlock);
+                }
+                if (VorbisCommentBlock != null)
+                {
+                    ret.Add(VorbisCommentBlock);
+                }
+                if (PaddingBlock != null)
+                {
+                    ret.Add(PaddingBlock);
+                }
+                foreach(IFlacMetadataBlock b in OtherBlocks)
+                {
+                    ret.Add(b);
+                }
+                return ret;
+            }
+        }
 
         public int MetadataLengthInBytes { get; set; }
-        public FlacStreamInfoBlock StreamInfoBlock { get; set; }
-        public FlacSeektableBlock SeekTableBlock { get; set; }
-        public FlacVorbisCommentBlock VorbisCommentBlock { get; set; }
-        public FlacPaddingBlock PaddingBlock { get; set; }public List<IFlacMetadataBlock> OtherBlocks { get; set; }
+        internal FlacStreamInfoBlock StreamInfoBlock { get; set; }
+        internal FlacSeektableBlock SeekTableBlock { get; set; }
+        internal FlacVorbisCommentBlock VorbisCommentBlock { get; set; }
+        internal FlacPaddingBlock PaddingBlock { get; set; }
+        internal List<IFlacMetadataBlock> OtherBlocks { get; set; }
 
         public FlacFileInfo()
         {
